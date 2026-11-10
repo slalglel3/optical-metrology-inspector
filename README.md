@@ -54,8 +54,22 @@ pip install -r requirements.txt
 
 ## 3. 실행 및 테스트 가이드 (Usage)
 
-### 3.1 CLI 일괄 검정 실행
-검사할 이미지 파일들이 들어있는 폴더(또는 개별 이미지 경로들)를 지정하여 실행합니다:
+사용 목적에 따라 **특정 타겟 이미지 1장만 검사하는 스크립트(`inspect_target.py`)**와 **폴더 내 전체 이미지를 순차 전수 검사하는 스크립트(`inspect_all.py`)**를 사용할 수 있습니다.
+
+### 3.1 특정 타겟 이미지 1장에 대해서만 검사 (`inspect_target.py`)
+```bash
+# 사용법: python3 inspect_target.py <sample_directory_path> <타겟이미지파일명> [-o 출력폴더]
+python3 inspect_target.py samples e16b9a33-8bcf-4ab6-9810-78a6b849f140.jpg
+```
+
+### 3.2 샘플 디렉토리의 모든 이미지에 대해 순차적으로 전수 검사 (`inspect_all.py`)
+```bash
+# 사용법: python3 inspect_all.py <sample_directory_path> [-o 출력폴더]
+python3 inspect_all.py samples
+```
+
+### 3.3 통합 CLI 실행 (`inspect_cli.py`)
+검사할 이미지 파일들이 들어있는 폴더(또는 개별 이미지 경로들)를 자유롭게 조합하여 실행할 수도 있습니다:
 ```bash
 # 샘플 이미지 폴더 일괄 검정 및 output_report 디렉토리에 결과 생성
 python3 inspect_cli.py samples/ -o output_report
