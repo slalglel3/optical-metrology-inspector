@@ -331,13 +331,23 @@ class MetrologyFeatureExtractor:
         tb_sym = 1.0 - (abs(q_top - q_bottom) / tb_sum) if tb_sum > 25 else 1.0
         symmetry_score = 0.5 * lr_sym + 0.5 * tb_sym
 
-        # 곡선/홀 사이트 여부 판별 (대각 섹터 비중 및 잔가시 형태학 확인)
+        # 곡선/홀 사이트 여부 판별:
+        # 대각 섹터 비중이 높고, 사이트 내 빨간색 면적의 과반이 얇은 수평/수직 직선 바(min(w,h)<=20, aspect>=3.0)가 아닌 2차원 곡선/원호 성분인 경우
         diag_mass = (
             sector_areas[1] + sector_areas[2] + sector_areas[4] + sector_areas[5]
             + sector_areas[7] + sector_areas[8] + sector_areas[10] + sector_areas[11]
         )
-        # 사이트 내에 검출된 십자가 중심이 있고 대각 방위에도 호(Arc) 성분이 고르게 분포하면 곡선/홀 패턴
-        is_curved_site = (diag_mass / max(1.0, total_red_area)) > 0.38 and len(layers.crosshair_centers) > 0
+        num_pre, _, stats_pre, _ = cv2.connectedComponentsWithStats(sub_red_recon.astype(np.uint8))
+        rectilinear_bar_area = 0.0
+        for cid in range(1, num_pre):
+            _, _, cw, ch, carea = stats_pre[cid]
+            if carea >= 25 and min(cw, ch) <= 20 and max(cw, ch) >= 32 and (max(cw, ch) / float(max(1, min(cw, ch)))) >= 2.8:
+                rectilinear_bar_area += float(carea)
+
+        is_curved_site = (
+            (diag_mass / max(1.0, total_red_area)) > 0.38
+            and (rectilinear_bar_area / max(1.0, float(sub_red_recon.sum()))) < 0.45
+        )
 
         # 곡선/홀 패턴의 경우 마젠타 텍스트(DA2, CD4 등)나 하늘색 지시선이 원호를 가로지르며 만든 갭(최대 15px)을 연결
         if is_curved_site:

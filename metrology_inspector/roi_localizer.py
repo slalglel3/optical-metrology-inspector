@@ -54,12 +54,15 @@ class ROILocalizer:
         dilated = cv2.dilate(union_mask, kernel)
 
         num, labels, _, _ = cv2.connectedComponentsWithStats(dilated)
-        raw_boxes: List[BoundingBox] = []
+        candidate_clusters: List[Tuple[BoundingBox, int, int]] = []
 
         for i in range(1, num):
-            cluster_pts = (union_mask > 0) & (labels == i)
+            comp_mask = (labels == i)
+            cluster_pts = (union_mask > 0) & comp_mask
             if int(cluster_pts.sum()) < cls.MIN_SITE_PIXELS:
                 continue
+            cyan_pts = int((layers.cyan_marker_mask & comp_mask).sum())
+            red_pts = int((layers.clean_red_mask & comp_mask).sum())
             ys, xs = np.where(cluster_pts)
             bbox = BoundingBox(
                 x1=int(xs.min()),
@@ -67,6 +70,20 @@ class ROILocalizer:
                 x2=int(xs.max()) + 1,
                 y2=int(ys.max()) + 1,
             )
+            candidate_clusters.append((bbox, cyan_pts, red_pts))
+
+        # 마커 앵커 기반 비계측 클러스터 필터링 (좌상단/우상단 흐릿한 텍스트 잔여물 등이 별도 사이트로 분리되는 현상 원천 차단)
+        has_cyan_anchored_site = any(c_pts >= 12 for _, c_pts, _ in candidate_clusters)
+        raw_boxes: List[BoundingBox] = []
+        for bbox, cyan_pts, red_pts in candidate_clusters:
+            if cyan_pts < 12:
+                # 1) 상단/하단 텍스트 마진 영역에 위치한 마커 없는 단독 빨간색 군집은 무조건 배제
+                if bbox.y1 < int(0.18 * H) or bbox.y2 <= int(0.22 * H) or bbox.y1 >= int(0.85 * H):
+                    continue
+                # 2) 이미지 내에 정상 하늘색 마커를 포함한 계측 사이트가 이미 존재할 때,
+                #    마커가 전혀 없는 단독 빨간색 클러스터는 비계측 노이즈로 배제
+                if has_cyan_anchored_site:
+                    continue
             raw_boxes.append(bbox)
 
         # 공간 순서 일관성을 위해 (y 중심 상위 -> x 중심 좌측) 순으로 정렬

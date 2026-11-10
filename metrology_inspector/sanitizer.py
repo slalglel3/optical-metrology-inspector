@@ -32,38 +32,51 @@ class VisualNoiseSanitizer:
     def is_crosshair_component(comp_mask: np.ndarray) -> bool:
         """단일 Connected Component가 직교 십자가(+) 표시인지 형태학적으로 판별합니다.
 
-        실제 계측 패턴(긴 선분, 원호, 사각형 변)이나 점 찍힘 결함(속이 찬 Blob, fill > 0.55)은
-        절대 십자가로 오판하지 않도록 4개 모서리 사분면 공백(4-Corner Empty)과 중심축 투영을 검증합니다.
+        선명한 십자가뿐만 아니라 저해상도/블러로 인해 획이 두꺼워지고 모서리가 번진 십자가(+)까지 검출하되,
+        실제 계측 패턴(긴 선분, 원호)이나 점 찍힘 결함(직사각형/타원형 블롭)은 보존합니다.
         """
         h, w = comp_mask.shape
         if h < 8 or w < 8 or h > 85 or w > 85:
             return False
         aspect = w / float(h)
-        if aspect < 0.55 or aspect > 1.80:
+        if aspect < 0.60 or aspect > 1.65:
             return False
 
         area = int(comp_mask.sum())
         fill = area / float(h * w)
-        # 십자가(+)는 가로획과 세로획만 존재하므로 채움률이 낮음 (점 찍힘 결함은 fill ~ 0.7~0.95)
-        if fill > 0.46 or fill < 0.07:
+        # 블러된 십자가(fill ~ 0.60)까지 포괄하되 속이 완전히 찬 직사각형(fill > 0.68)은 제외
+        if fill > 0.68 or fill < 0.07:
             return False
 
-        # 4개 모서리 사분면(각 32% x 32%)이 비어 있는지 확인
-        cw = max(2, int(w * 0.32))
-        ch = max(2, int(h * 0.32))
-        corner_sum = (
-            int(comp_mask[:ch, :cw].sum())
-            + int(comp_mask[:ch, -cw:].sum())
-            + int(comp_mask[-ch:, :cw].sum())
-            + int(comp_mask[-ch:, -cw:].sum())
-        )
-        if corner_sum / float(max(1, area)) > 0.09:
+        # 4개 외곽 모서리(각 26% x 26%)가 개별적으로 모두 비어 있는지 확인 (L자/T자 침범 결함은 최소 1개 모서리가 차 있으므로 즉시 배제됨)
+        cw = max(2, int(w * 0.26))
+        ch = max(2, int(h * 0.26))
+        c_tl = int(comp_mask[:ch, :cw].sum())
+        c_tr = int(comp_mask[:ch, -cw:].sum())
+        c_bl = int(comp_mask[-ch:, :cw].sum())
+        c_br = int(comp_mask[-ch:, -cw:].sum())
+        if max(c_tl, c_tr, c_bl, c_br) / float(max(1, area)) > 0.035:
+            return False
+        if (c_tl + c_tr + c_bl + c_br) / float(max(1, area)) > 0.08:
             return False
 
-        # 중심 가로획 및 세로획이 박스 폭/높이의 60% 이상을 관통하는지 확인
-        row_max_ratio = comp_mask.sum(axis=1).max() / float(w)
-        col_max_ratio = comp_mask.sum(axis=0).max() / float(h)
-        if row_max_ratio < 0.60 or col_max_ratio < 0.60:
+        # 중심 가로획 및 세로획이 박스 폭/높이의 65% 이상을 관통하며, 그 최대 투영 위치가 정중앙(28%~72%)에 위치하는지 확인
+        row_sums = comp_mask.sum(axis=1)
+        col_sums = comp_mask.sum(axis=0)
+        if row_sums.max() / float(w) < 0.65 or col_sums.max() / float(h) < 0.65:
+            return False
+
+        r_peak = float(np.argmax(row_sums)) / float(max(1, h - 1))
+        c_peak = float(np.argmax(col_sums)) / float(max(1, w - 1))
+        if not (0.28 <= r_peak <= 0.72 and 0.28 <= c_peak <= 0.72):
+            return False
+
+        # Tapered Cross Profile: 상/하단 20% 끝단 행과 좌/우측 20% 끝단 열의 평균 두께가 전체 폭보다 좁아야 함
+        edge_r = max(1, int(h * 0.20))
+        edge_c = max(1, int(w * 0.20))
+        if (row_sums[:edge_r].mean() + row_sums[-edge_r:].mean()) / 2.0 > 0.60 * w:
+            return False
+        if (col_sums[:edge_c].mean() + col_sums[-edge_c:].mean()) / 2.0 > 0.60 * h:
             return False
 
         return True
@@ -74,56 +87,86 @@ class VisualNoiseSanitizer:
         binary_mask: np.ndarray,
         cyan_marker_mask: np.ndarray,
     ) -> np.ndarray:
-        """동일 수평 라인 상에 작은 글자 크기 컴포넌트들이 일렬로 나열된 텍스트 영역을 검출합니다."""
+        """화면 내 빨간색 텍스트(선명한 개별 문자 및 저해상도/블러로 뭉개진 단어·문장 덩어리)를 검출합니다."""
         H, W = binary_mask.shape
         text_mask = np.zeros((H, W), dtype=bool)
 
-        # 1. 상단 메타데이터/좌표 텍스트 고정 밴드 (y < 0.165 * H)
-        top_band_h = int(H * 0.165)
-        # 단, 상단 밴드 내에 하늘색 마커가 직접 존재하는 영역은 보호
-        if cyan_marker_mask[:top_band_h, :].sum() < 50:
-            text_mask[:top_band_h, :] |= binary_mask[:top_band_h, :]
+        # 하늘색 마커가 감싸거나 지시하는 실제 계측 ROI 보호 마스크 산출
+        # (지시선 마커 형태인 홀 패턴까지 포함하도록 넉넉한 반경 마진 부여)
+        cyan_roi_protected = np.zeros((H, W), dtype=bool)
+        if cyan_marker_mask.any():
+            rad = max(20, int(0.075 * min(H, W)))
+            k_c = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * rad + 1, 2 * rad + 1))
+            c_dil = cv2.dilate(cyan_marker_mask.astype(np.uint8), k_c)
+            num_c, labels_c, _, _ = cv2.connectedComponentsWithStats(c_dil)
+            pad_m = max(35, int(0.07 * min(H, W)))
+            for ci in range(1, num_c):
+                c_pts = cyan_marker_mask & (labels_c == ci)
+                if int(c_pts.sum()) >= 12:
+                    c_ys, c_xs = np.where(c_pts)
+                    cy1 = max(0, int(c_ys.min()) - 10)
+                    cy2 = min(H, int(c_ys.max()) + pad_m)
+                    cx1 = max(0, int(c_xs.min()) - pad_m)
+                    cx2 = min(W, int(c_xs.max()) + pad_m)
+                    cyan_roi_protected[cy1:cy2, cx1:cx2] = True
 
-        # 2. Connected Components 기반 범용 수평 문자열 라인 탐지
-        remaining = binary_mask & (~text_mask)
+        # 1. 상단 메타데이터/좌표 텍스트 밴드 (y < 0.20 * H)
+        # 기존처럼 상단 밴드 전체의 cyan 합으로 스킵하지 않고, 하늘색 마커 ROI 바깥(~cyan_roi_protected)의
+        # 상단 빨간 픽셀은 마커가 상단에 걸치더라도 100% 텍스트로 제거!
+        top_band_h = int(H * 0.20)
+        text_mask[:top_band_h, :] |= (binary_mask[:top_band_h, :] & (~cyan_roi_protected[:top_band_h, :]))
+
+        # 2. 수평 모폴로지 클로징(65x5)을 이용한 '흐릿하게 뭉개진 텍스트 줄(Text Line Band)' 검출
+        # 글씨가 블러되어 옆 글자와 하나로 뭉쳐 w > 50px이 된 경우에도 수평 줄 형태로 100% 포착
+        remaining = binary_mask & (~text_mask) & (~cyan_roi_protected)
+        if remaining.any():
+            k_line = cv2.getStructuringElement(cv2.MORPH_RECT, (65, 5))
+            merged_lines = cv2.morphologyEx(remaining.astype(np.uint8), cv2.MORPH_CLOSE, k_line)
+            num_l, labels_l, stats_l, _ = cv2.connectedComponentsWithStats(merged_lines)
+            for i in range(1, num_l):
+                lx, ly, lw, lh, _ = stats_l[i]
+                line_region = (labels_l == i)
+                orig_in_line = remaining & line_region
+                if not orig_in_line.any():
+                    continue
+                num_sub, _, _, _ = cv2.connectedComponentsWithStats(orig_in_line.astype(np.uint8))
+                sub_count = num_sub - 1
+
+                # 텍스트 줄 조건: 높이가 낮고(<= 52px) 옆으로 길며(w/h >= 2.8),
+                # 2개 이상의 단어/문자 조각으로 이루어졌거나 상/하단 외곽인 경우
+                if lh <= 52 and lw >= 50 and (lw / float(max(1, lh))) >= 2.8:
+                    if sub_count >= 2 or ly < int(H * 0.28) or ly > int(H * 0.80):
+                        text_mask |= orig_in_line
+
+        # 3. 개별 문자/단어 체인 기반 수평 텍스트 군집 탐지 (마커 ROI 외부 대상)
+        remaining = binary_mask & (~text_mask) & (~cyan_roi_protected)
         num, labels, stats, centroids = cv2.connectedComponentsWithStats(remaining.astype(np.uint8))
         if num <= 1:
             return text_mask
 
-        # 글자 후보: 높이 6~55px, 폭 2~50px, 면적 8~1200px
         char_indices = []
         for i in range(1, num):
             x, y, w, h, area = stats[i]
-            if 6 <= h <= 55 and 1 <= w <= 50 and 6 <= area <= 1200:
-                # 만약 하늘색 마커와 직접 겹치거나 마커 바로 안쪽의 주 계측 선분이면 제외
-                # 텍스트는 여러 글자가 수평으로 촘촘히 나열됨
+            if 5 <= h <= 55 and 1 <= w <= 140 and 5 <= area <= 3500:
                 char_indices.append(i)
 
-        if len(char_indices) >= 4:
-            # y 중심 좌표가 비슷하고(차이 < 18px) x 방향으로 인접(간격 < 45px)한 컴포넌트 군집 탐색
+        if len(char_indices) >= 2:
             visited = set()
             for idx in char_indices:
                 if idx in visited:
                     continue
                 _, y0, w0, h0, _ = stats[idx]
                 cy0 = centroids[idx][1]
-                # 같은 수평 라인에 있는 글자 후보들 수집
                 line_group = [
                     j for j in char_indices
-                    if abs(centroids[j][1] - cy0) < max(14.0, 0.55 * h0)
-                    and abs(stats[j][3] - h0) < max(14, int(0.6 * h0))
+                    if abs(centroids[j][1] - cy0) < max(16.0, 0.65 * h0)
+                    and abs(stats[j][3] - h0) < max(16, int(0.7 * h0))
                 ]
-                if len(line_group) >= 4:
-                    # x 좌표 정렬 후 연속 인접성 확인
+                if len(line_group) >= 2:
                     line_group.sort(key=lambda j: stats[j][0])
-                    chain = [line_group[0]]
-                    for j in line_group[1:]:
-                        prev = chain[-1]
-                        gap = stats[j][0] - (stats[prev][0] + stats[prev][2])
-                        if -5 <= gap <= 45:
-                            chain.append(j)
-                    if len(chain) >= 4:
-                        for j in chain:
+                    total_span_w = (stats[line_group[-1]][0] + stats[line_group[-1]][2]) - stats[line_group[0]][0]
+                    if len(line_group) >= 3 or total_span_w >= 80:
+                        for j in line_group:
                             visited.add(j)
                             text_mask[labels == j] = True
 
@@ -302,8 +345,8 @@ class VisualNoiseSanitizer:
                 if max_area > 300 and area < 0.12 * max_area and min(w, h) <= 8:
                     clean_red_mask[comp_m] = False
                     continue
-                # (c) 수평 패드(w >= 35) 아래에 얇은 수직 치수선 줄기(행 폭 <= 6px)가 붙어 있는 경우 수직 줄기만 정밀 제거
-                if w >= 35 and h >= 28:
+                # (c) 수평 패드(35 <= w <= 95, 28 <= h <= 60) 아래에 얇은 수직 치수선 줄기(행 폭 <= 6px)가 붙어 있는 경우 수직 줄기만 정밀 제거
+                if 35 <= w <= 95 and 28 <= h <= 60:
                     sub_comp = comp_m[y:y + h, x:x + w]
                     row_widths = sub_comp.sum(axis=1)
                     thin_rows = np.where((row_widths > 0) & (row_widths <= 6))[0]

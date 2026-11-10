@@ -40,7 +40,7 @@ class ClusterDefectClassifier:
             for sites in sites_per_image
         ], dtype=np.float64)
 
-        target_area = float(np.max(total_areas)) if num_images <= 3 else float(np.median(total_areas))
+        target_area = float(np.max(total_areas)) if num_images <= 2 else float(np.median(total_areas))
 
         best_idx = 0
         best_score = -1e9
@@ -55,19 +55,19 @@ class ClusterDefectClassifier:
             defocus_penalty = -1.5 if focus.is_defocused else 0.0
             mean_integrity = float(np.mean([s.intrinsic_integrity_score for s in sites]))
 
-            # 총 검출 면적이 결손되지 않고 완전한지 평가
+            # 총 검출 면적이 결손이나 과도한 팽창 없이 기준 면적에 부합하는지 평가
             cur_area = total_areas[idx]
-            area_score = min(1.0, cur_area / max(1.0, target_area))
-            if num_images >= 4 and cur_area > target_area * 1.45:
-                # 과도한 팽창/노이즈 이미지는 대표 정상에서 배제
-                area_score -= 0.5
+            if num_images <= 2:
+                area_score = min(1.0, cur_area / max(1.0, target_area))
+            else:
+                area_score = max(0.0, 1.0 - abs(cur_area - target_area) / max(1.0, target_area))
 
             total_score = (
                 rescued_penalty
                 + defocus_penalty
-                + 0.72 * mean_integrity
-                + 0.20 * area_score
-                + 0.08 * min(1.0, focus.relative_to_cluster)
+                + 0.68 * mean_integrity
+                + 0.14 * area_score
+                + 0.18 * min(1.0, focus.relative_to_cluster)
             )
             if total_score > best_score:
                 best_score = total_score

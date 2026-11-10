@@ -175,6 +175,49 @@ class TestOpticalMetrologyInspector(unittest.TestCase):
             self.assertTrue(rmap["intruded.jpg"].is_outlier)
             self.assertIn(DefectType.ADJACENT_INTRUSION.value, rmap["intruded.jpg"].defect_types)
 
+    def test_05_blurry_merged_text_and_false_site_prevention(self) -> None:
+        """해상도 저하로 심하게 뭉개진 좌상단 빨간 글씨 샘플(dcb65f81) 및 상단 마커 중첩 시 가짜 사이트 분할 원천 차단 검증."""
+        blurry_sample = os.path.join(SAMPLES_DIR, "dcb65f81-5fcc-4451-b245-05ecd8e2f76d.jpg")
+        self.assertTrue(os.path.isfile(blurry_sample))
+
+        bgr = cv2.imread(blurry_sample)
+        self.assertIsNotNone(bgr)
+
+        # 1) 심하게 뭉개진 좌상단 2줄 빨간 좌표 텍스트(y < 250)가 100% 제거되는지 확인
+        layers = VisualNoiseSanitizer.sanitize(bgr)
+        self.assertEqual(int(layers.clean_red_mask[:250, :].sum()), 0)
+        # 흐릿하게 번진 두 홀 내부의 중심 십자가(+) 2개도 모두 검출·제거되어야 함
+        self.assertEqual(len(layers.crosshair_centers), 2)
+
+        # 2) 홀 군집(7e323b20 정상, 3bd01813 오계측, dcb65f81 흐릿한 텍스트) 비교 시
+        #    좌상단 글씨가 별도 사이트로 나뉘지 않고 정확히 2개 홀 사이트만 검출되며 정상 판정되는지 확인
+        hole_batch = [
+            os.path.join(SAMPLES_DIR, "7e323b20-c51a-47d5-a256-519fe63bf36d.jpg"),
+            os.path.join(SAMPLES_DIR, "3bd01813-20fe-44fb-a16f-2580cc1d52e8.jpg"),
+            blurry_sample,
+        ]
+        pipeline = MetrologyInspectionPipeline(auto_group_recipes=True)
+        results = pipeline.inspect_batch(hole_batch)
+        rmap = {r.image_name: r for r in results}
+
+        r_blurry = rmap["dcb65f81-5fcc-4451-b245-05ecd8e2f76d.jpg"]
+        self.assertEqual(len(r_blurry.sites), 2)
+        self.assertEqual(r_blurry.reference_image_name, "7e323b20-c51a-47d5-a256-519fe63bf36d.jpg")
+        self.assertFalse(r_blurry.is_outlier)
+
+        # 3) 하늘색 마커가 상단 15% 영역(y=120)까지 올라온 이미지(G3 등)에서
+        #    좌상단 빨간 글씨가 과도하게 뭉개져 붙어 있더라도 절대 가짜 사이트(Site #1)로 분할되지 않는지 검증
+        g3_img = cv2.imread(os.path.join(SAMPLES_DIR, "558c07e3-cb30-42e0-9e4e-6305729118f8.jpg"))
+        self.assertIsNotNone(g3_img)
+        g3_heavily_blurred_text = g3_img.copy()
+        # 좌상단 텍스트 영역을 강하게 블러링하고 붉은 텍스트 덩어리를 추가
+        g3_heavily_blurred_text[20:135, 10:550] = cv2.GaussianBlur(
+            g3_heavily_blurred_text[20:135, 10:550], (25, 15), 7.0
+        )
+        layers_g3 = VisualNoiseSanitizer.sanitize(g3_heavily_blurred_text)
+        # 하늘색 마커 외부의 좌상단(y < 140, x < 230) 빨간 텍스트 픽셀은 0이어야 함
+        self.assertEqual(int(layers_g3.clean_red_mask[:140, :230].sum()), 0)
+
 
 if __name__ == "__main__":
     unittest.main()

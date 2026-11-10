@@ -1,6 +1,6 @@
 {
-  "total_images": 8,
-  "normal_count": 4,
+  "total_images": 9,
+  "normal_count": 5,
   "outlier_count": 4,
   "results": [
     {
@@ -30,10 +30,10 @@
             "y2": 616
           },
           "normalized_bbox": {
-            "x1": 237,
-            "y1": 278,
-            "x2": 525,
-            "y2": 632
+            "x1": 236,
+            "y1": 277,
+            "x2": 526,
+            "y2": 634
           },
           "is_rescued": false,
           "anchor_cx": 380.5,
@@ -42,8 +42,8 @@
           "anchor_h": 322.0,
           "total_red_area": 1732.0,
           "total_cyan_area": 8275.0,
-          "total_skeleton_length": 158.0,
-          "mean_thickness": 10.96,
+          "total_skeleton_length": 167.4,
+          "mean_thickness": 10.38,
           "max_thickness": 13.19,
           "span_x": 74.0,
           "span_y": 125.0,
@@ -70,32 +70,57 @@
             212.0
           ],
           "symmetry_score": 0.1847,
-          "intrinsic_integrity_score": 0.5962,
+          "intrinsic_integrity_score": 0.5269,
           "segments": [
             {
               "segment_id": 0,
               "bbox": {
                 "x1": 341,
                 "y1": 406,
+                "x2": 360,
+                "y2": 479
+              },
+              "rel_cx": -0.1171875,
+              "rel_cy": -0.037267080745341616,
+              "area": 796.0,
+              "span_length": 73.0,
+              "skeleton_length": 72.62773697349195,
+              "mean_thickness": 10.960000038146973,
+              "max_thickness": 13.192999839782715,
+              "aspect_ratio": 3.8421052631578947,
+              "orientation_deg": 93.28056437685808,
+              "sinuosity_std": 1.7477479590680813,
+              "max_axis_deviation": 4.883746760459079,
+              "orthogonal_intrusion_ratio": 0.0,
+              "fragment_count_in_corridor": 1,
+              "underlying_wafer_intensity": 112.9314381270903,
+              "underlying_wafer_gradient": 80.577880859375,
+              "is_curved_arc": false
+            },
+            {
+              "segment_id": 1,
+              "bbox": {
+                "x1": 349,
+                "y1": 487,
                 "x2": 415,
                 "y2": 531
               },
-              "rel_cx": -0.009765625,
-              "rel_cy": 0.043478260869565216,
-              "area": 1732.0,
-              "span_length": 125.0,
-              "skeleton_length": 158.02919653026137,
-              "mean_thickness": 10.960000038146973,
-              "max_thickness": 13.192999839782715,
-              "aspect_ratio": 1.6891891891891893,
-              "orientation_deg": 67.26960403783615,
-              "sinuosity_std": 5.44264914490724,
-              "max_axis_deviation": 14.499653290368109,
-              "orthogonal_intrusion_ratio": 0.4017094017094017,
+              "rel_cx": 0.005859375,
+              "rel_cy": 0.16925465838509315,
+              "area": 936.0,
+              "span_length": 66.0,
+              "skeleton_length": 94.75026710043758,
+              "mean_thickness": 9.878600120544434,
+              "max_thickness": 12.364399909973145,
+              "aspect_ratio": 1.5,
+              "orientation_deg": 15.759696687995643,
+              "sinuosity_std": 9.498909253684781,
+              "max_axis_deviation": 14.805970149253739,
+              "orthogonal_intrusion_ratio": 0.3939393939393939,
               "fragment_count_in_corridor": 1,
-              "underlying_wafer_intensity": 129.8890860692103,
-              "underlying_wafer_gradient": 72.4706802368164,
-              "is_curved_arc": true
+              "underlying_wafer_intensity": 156.17616191904048,
+              "underlying_wafer_gradient": 75.1664810180664,
+              "is_curved_arc": false
             }
           ]
         },
@@ -108,7 +133,7 @@
             "y2": 1139
           },
           "normalized_bbox": {
-            "x1": 698,
+            "x1": 687,
             "y1": 944,
             "x2": 922,
             "y2": 1155
@@ -116,7 +141,7 @@
           "is_rescued": false,
           "anchor_cx": 764.8702702702702,
           "anchor_cy": 1071.9405405405405,
-          "anchor_w": 192.0,
+          "anchor_w": 203.0,
           "anchor_h": 179.0,
           "total_red_area": 2001.0,
           "total_cyan_area": 1248.0,
@@ -125,7 +150,7 @@
           "max_thickness": 10.96,
           "span_x": 95.0,
           "span_y": 134.0,
-          "rel_centroid_x": 0.1791,
+          "rel_centroid_x": 0.1694,
           "rel_centroid_y": -0.0168,
           "angular_sector_areas": [
             166.0,
@@ -158,7 +183,7 @@
                 "x2": 840,
                 "y2": 1139
               },
-              "rel_cx": 0.14390484234234258,
+              "rel_cx": 0.13610704300359494,
               "rel_cy": 0.00033217575117041177,
               "area": 2001.0,
               "span_length": 134.0,
@@ -181,33 +206,33 @@
       "defects": [
         {
           "defect_type": "선분 단절 및 결손",
-          "severity_score": 9.61,
+          "severity_score": 9.5,
           "site_id": 0,
           "region_bbox": {
             "x1": 380,
-            "y1": 288,
-            "x2": 515,
-            "y2": 622
+            "y1": 287,
+            "x2": 516,
+            "y2": 624
           },
-          "description": "Site #1 선분/호 단절 및 결손: 우측(Right) 구간(0%만 검출) 결손 (전체 계측 길이 정상 대비 63.0%)",
+          "description": "Site #1 선분/호 단절 및 결손: 우측(Right) 구간(0%만 검출) 결손 (전체 계측 길이 정상 대비 66.7%)",
           "metrics": {
-            "length_ratio": 0.63,
+            "length_ratio": 0.667,
             "missing_quadrant_count": 1.0
           }
         },
         {
           "defect_type": "선분 단절 및 결손",
-          "severity_score": 9.27,
+          "severity_score": 9.37,
           "site_id": 1,
           "region_bbox": {
-            "x1": 708,
+            "x1": 697,
             "y1": 954,
             "x2": 764,
             "y2": 1145
           },
-          "description": "Site #2 선분/호 단절 및 결손: 좌측(Left) 구간(0%만 검출) 결손 (전체 계측 길이 정상 대비 74.5%)",
+          "description": "Site #2 선분/호 단절 및 결손: 좌측(Left) 구간(0%만 검출) 결손 (전체 계측 길이 정상 대비 71.0%)",
           "metrics": {
-            "length_ratio": 0.745,
+            "length_ratio": 0.71,
             "missing_quadrant_count": 1.0
           }
         }
@@ -216,7 +241,7 @@
       "defect_types": [
         "선분 단절 및 결손"
       ],
-      "summary_explanation": "[오계측 판정] 주원인: 선분 단절 및 결손 | 상세: Site #1 선분/호 단절 및 결손: 우측(Right) 구간(0%만 검출) 결손 (전체 계측 길이 정상 대비 63.0%) / Site #2 선분/호 단절 및 결손: 좌측(Left) 구간(0%만 검출) 결손 (전체 계측 길이 정상 대비 74.5%)",
+      "summary_explanation": "[오계측 판정] 주원인: 선분 단절 및 결손 | 상세: Site #1 선분/호 단절 및 결손: 우측(Right) 구간(0%만 검출) 결손 (전체 계측 길이 정상 대비 66.7%) / Site #2 선분/호 단절 및 결손: 좌측(Left) 구간(0%만 검출) 결손 (전체 계측 길이 정상 대비 71.0%)",
       "reference_image_name": "7e323b20-c51a-47d5-a256-519fe63bf36d.jpg",
       "reference_image_path": "samples/7e323b20-c51a-47d5-a256-519fe63bf36d.jpg",
       "diagnostic_image_path": "output_report/diagnostics/3bd01813-20fe-44fb-a16f-2580cc1d52e8_diagnostic.jpg",
@@ -942,10 +967,10 @@
             "y2": 616
           },
           "normalized_bbox": {
-            "x1": 237,
-            "y1": 278,
-            "x2": 525,
-            "y2": 632
+            "x1": 236,
+            "y1": 277,
+            "x2": 526,
+            "y2": 634
           },
           "is_rescued": false,
           "anchor_cx": 380.5,
@@ -1073,31 +1098,31 @@
             "x1": 687,
             "y1": 944,
             "x2": 922,
-            "y2": 1154
+            "y2": 1153
           },
           "is_rescued": false,
           "anchor_cx": 764.8702702702702,
           "anchor_cy": 1071.9405405405405,
           "anchor_w": 203.0,
-          "anchor_h": 178.0,
-          "total_red_area": 2398.0,
+          "anchor_h": 177.0,
+          "total_red_area": 2514.0,
           "total_cyan_area": 1248.0,
-          "total_skeleton_length": 348.2,
+          "total_skeleton_length": 365.0,
           "mean_thickness": 6.89,
           "max_thickness": 9.88,
           "span_x": 126.0,
           "span_y": 125.0,
-          "rel_centroid_x": 0.0041,
-          "rel_centroid_y": -0.0126,
+          "rel_centroid_x": -0.0072,
+          "rel_centroid_y": -0.0136,
           "angular_sector_areas": [
             142.0,
             190.0,
             233.0,
-            205.0,
-            164.0,
+            213.0,
+            182.0,
             220.0,
-            128.0,
-            205.0,
+            198.0,
+            225.0,
             274.0,
             188.0,
             208.0,
@@ -1105,12 +1130,12 @@
           ],
           "quadrant_areas": [
             602.0,
-            566.0,
-            524.0,
+            592.0,
+            614.0,
             706.0
           ],
-          "symmetry_score": 0.9103,
-          "intrinsic_integrity_score": 0.7776,
+          "symmetry_score": 0.9512,
+          "intrinsic_integrity_score": 0.7878,
           "segments": [
             {
               "segment_id": 0,
@@ -1121,16 +1146,16 @@
                 "y2": 1134
               },
               "rel_cx": 0.005565171082412682,
-              "rel_cy": -0.0024749468569690803,
-              "area": 2398.0,
+              "rel_cy": -0.0024889296075734256,
+              "area": 2514.0,
               "span_length": 126.0,
-              "skeleton_length": 348.1821411077159,
+              "skeleton_length": 365.02498029391063,
               "mean_thickness": 6.887199878692627,
               "max_thickness": 9.878600120544434,
               "aspect_ratio": 1.008,
-              "orientation_deg": 89.31509391858874,
-              "sinuosity_std": 14.004166394560317,
-              "max_axis_deviation": 58.95043090393357,
+              "orientation_deg": 76.23759214131853,
+              "sinuosity_std": 12.827537468180644,
+              "max_axis_deviation": 57.8328011520122,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 232.91592456783656,
@@ -1368,7 +1393,7 @@
             1074.0
           ],
           "symmetry_score": 0.8279,
-          "intrinsic_integrity_score": 0.7642,
+          "intrinsic_integrity_score": 0.7619,
           "segments": [
             {
               "segment_id": 0,
@@ -1387,13 +1412,13 @@
               "max_thickness": 10.960000038146973,
               "aspect_ratio": 5.090909090909091,
               "orientation_deg": 0.2903184624690027,
-              "sinuosity_std": 0.19466794449166133,
-              "max_axis_deviation": 0.4781403940886717,
+              "sinuosity_std": 0.3035631356673561,
+              "max_axis_deviation": 0.9718045112781954,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 229.17701863354037,
               "underlying_wafer_gradient": 313.4801025390625,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 1,
@@ -1412,13 +1437,13 @@
               "max_thickness": 9.878600120544434,
               "aspect_ratio": 5.0,
               "orientation_deg": 0.10969482076174586,
-              "sinuosity_std": 0.14877178243190492,
-              "max_axis_deviation": 0.5161234991423651,
+              "sinuosity_std": 0.16497667380305941,
+              "max_axis_deviation": 0.47629870129870255,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 223.6552795031056,
               "underlying_wafer_gradient": 159.78981018066406,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 2,
@@ -1437,13 +1462,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 4.636363636363637,
               "orientation_deg": 87.77108634776546,
-              "sinuosity_std": 0.2567925628571618,
-              "max_axis_deviation": 0.7645778195167763,
+              "sinuosity_std": 0.27368897965997563,
+              "max_axis_deviation": 0.9641779788838623,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 235.56832298136646,
               "underlying_wafer_gradient": 341.8186950683594,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 3,
@@ -1462,13 +1487,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 5.666666666666667,
               "orientation_deg": 90.0,
-              "sinuosity_std": 0.1096815330249112,
-              "max_axis_deviation": 0.3165969435669771,
+              "sinuosity_std": 0.13442460000786363,
+              "max_axis_deviation": 0.46078431372549034,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 179.47826086956522,
               "underlying_wafer_gradient": 191.0271453857422,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 5,
@@ -1487,13 +1512,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 5.2,
               "orientation_deg": 90.24268084417277,
-              "sinuosity_std": 1.0285580009311908,
-              "max_axis_deviation": 2.443381692299564,
+              "sinuosity_std": 1.0756626063724275,
+              "max_axis_deviation": 2.748271761534803,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 170.29813664596273,
               "underlying_wafer_gradient": 188.01063537597656,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 4,
@@ -1512,13 +1537,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 1.8888888888888888,
               "orientation_deg": 90.21301657718335,
-              "sinuosity_std": 0.1437976903648475,
-              "max_axis_deviation": 0.4156346749225994,
+              "sinuosity_std": 0.1606467608644503,
+              "max_axis_deviation": 0.4558823529411766,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 248.90993788819875,
               "underlying_wafer_gradient": 190.765625,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 6,
@@ -1537,13 +1562,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 5.7,
               "orientation_deg": 1.7569560914333806,
-              "sinuosity_std": 0.5600331786726466,
-              "max_axis_deviation": 1.6282260297148472,
+              "sinuosity_std": 0.5600373089976044,
+              "max_axis_deviation": 1.6327888687235292,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 191.96273291925465,
               "underlying_wafer_gradient": 191.6665802001953,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 7,
@@ -1562,13 +1587,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 5.5,
               "orientation_deg": 179.65762342475975,
-              "sinuosity_std": 0.197955404903972,
-              "max_axis_deviation": 0.6229665071770336,
+              "sinuosity_std": 0.2139738208568253,
+              "max_axis_deviation": 0.5294372294372254,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 243.1055900621118,
               "underlying_wafer_gradient": 237.80429077148438,
-              "is_curved_arc": true
+              "is_curved_arc": false
             }
           ]
         }
@@ -1621,6 +1646,240 @@
       "reference_image_path": "samples/4e4ab8e4-3be3-4e9a-89c6-bc94c9312dde.jpg",
       "diagnostic_image_path": "output_report/diagnostics/b31efdf0-31d2-4c32-8e67-504b52f7f78d_diagnostic.jpg",
       "comparison_image_path": "output_report/comparisons/b31efdf0-31d2-4c32-8e67-504b52f7f78d_vs_golden_comparison.jpg"
+    },
+    {
+      "image_path": "samples/dcb65f81-5fcc-4451-b245-05ecd8e2f76d.jpg",
+      "image_name": "dcb65f81-5fcc-4451-b245-05ecd8e2f76d.jpg",
+      "cluster_id": "Cluster_01",
+      "width": 1080,
+      "height": 1526,
+      "is_outlier": false,
+      "status_label": "NORMAL",
+      "focus_result": {
+        "sharpness_score": 29.55,
+        "tenengrad_score": 41.801,
+        "laplacian_score": 6.8,
+        "relative_to_cluster": 0.678,
+        "robust_z_score": -4.03,
+        "is_defocused": false,
+        "explanation": "정상 초점: 선명도 29.6 (군집 기준 대비 67.8%)"
+      },
+      "sites": [
+        {
+          "site_id": 0,
+          "raw_bbox": {
+            "x1": 251,
+            "y1": 292,
+            "x2": 512,
+            "y2": 619
+          },
+          "normalized_bbox": {
+            "x1": 235,
+            "y1": 276,
+            "x2": 528,
+            "y2": 635
+          },
+          "is_rescued": false,
+          "anchor_cx": 381.0,
+          "anchor_cy": 455.0,
+          "anchor_w": 261.0,
+          "anchor_h": 327.0,
+          "total_red_area": 3525.0,
+          "total_cyan_area": 14314.0,
+          "total_skeleton_length": 229.1,
+          "mean_thickness": 15.43,
+          "max_thickness": 18.35,
+          "span_x": 87.0,
+          "span_y": 131.0,
+          "rel_centroid_x": 0.0019,
+          "rel_centroid_y": 0.0254,
+          "angular_sector_areas": [
+            268.0,
+            17.0,
+            500.0,
+            542.0,
+            184.0,
+            266.0,
+            311.0,
+            453.0,
+            44.0,
+            133.0,
+            468.0,
+            339.0
+          ],
+          "quadrant_areas": [
+            841.0,
+            1094.0,
+            905.0,
+            685.0
+          ],
+          "symmetry_score": 0.8667,
+          "intrinsic_integrity_score": 0.8497,
+          "segments": [
+            {
+              "segment_id": 1,
+              "bbox": {
+                "x1": 341,
+                "y1": 404,
+                "x2": 360,
+                "y2": 488
+              },
+              "rel_cx": -0.11685823754789272,
+              "rel_cy": -0.027522935779816515,
+              "area": 1248.0,
+              "span_length": 84.0,
+              "skeleton_length": 84.43843183677225,
+              "mean_thickness": 14.779999732971191,
+              "max_thickness": 16.690000534057617,
+              "aspect_ratio": 4.421052631578948,
+              "orientation_deg": 91.63129954468002,
+              "sinuosity_std": 0.539754762449072,
+              "max_axis_deviation": 1.2831890735915596,
+              "orthogonal_intrusion_ratio": 0.0,
+              "fragment_count_in_corridor": 1,
+              "underlying_wafer_intensity": 120.15551839464882,
+              "underlying_wafer_gradient": 48.75550842285156,
+              "is_curved_arc": true
+            },
+            {
+              "segment_id": 0,
+              "bbox": {
+                "x1": 398,
+                "y1": 402,
+                "x2": 428,
+                "y2": 476
+              },
+              "rel_cx": 0.12260536398467432,
+              "rel_cy": -0.04892966360856269,
+              "area": 1208.0,
+              "span_length": 74.0,
+              "skeleton_length": 72.37866754617264,
+              "mean_thickness": 16.690000534057617,
+              "max_thickness": 18.347200393676758,
+              "aspect_ratio": 2.466666666666667,
+              "orientation_deg": 77.58665450831184,
+              "sinuosity_std": 0.5280366524506649,
+              "max_axis_deviation": 1.0948056275453624,
+              "orthogonal_intrusion_ratio": 0.0,
+              "fragment_count_in_corridor": 1,
+              "underlying_wafer_intensity": 112.85714285714286,
+              "underlying_wafer_gradient": 38.83297348022461,
+              "is_curved_arc": true
+            },
+            {
+              "segment_id": 2,
+              "bbox": {
+                "x1": 352,
+                "y1": 498,
+                "x2": 413,
+                "y2": 533
+              },
+              "rel_cx": 0.005747126436781609,
+              "rel_cy": 0.18501529051987767,
+              "area": 1069.0,
+              "span_length": 61.0,
+              "skeleton_length": 72.32747086018392,
+              "mean_thickness": 14.779999732971191,
+              "max_thickness": 15.608600616455078,
+              "aspect_ratio": 1.7428571428571429,
+              "orientation_deg": 3.286352085872153,
+              "sinuosity_std": 1.6375496464191304,
+              "max_axis_deviation": 4.328863539069766,
+              "orthogonal_intrusion_ratio": 0.04918032786885246,
+              "fragment_count_in_corridor": 1,
+              "underlying_wafer_intensity": 161.32986767485824,
+              "underlying_wafer_gradient": 42.19004440307617,
+              "is_curved_arc": true
+            }
+          ]
+        },
+        {
+          "site_id": 1,
+          "raw_bbox": {
+            "x1": 702,
+            "y1": 960,
+            "x2": 906,
+            "y2": 1135
+          },
+          "normalized_bbox": {
+            "x1": 686,
+            "y1": 944,
+            "x2": 922,
+            "y2": 1153
+          },
+          "is_rescued": false,
+          "anchor_cx": 764.3540229885058,
+          "anchor_cy": 1072.4298850574712,
+          "anchor_w": 204.0,
+          "anchor_h": 177.0,
+          "total_red_area": 3009.0,
+          "total_cyan_area": 1779.0,
+          "total_skeleton_length": 332.5,
+          "mean_thickness": 9.05,
+          "max_thickness": 13.19,
+          "span_x": 128.0,
+          "span_y": 128.0,
+          "rel_centroid_x": -0.0301,
+          "rel_centroid_y": -0.0265,
+          "angular_sector_areas": [
+            37.0,
+            157.0,
+            322.0,
+            260.0,
+            213.0,
+            290.0,
+            275.0,
+            293.0,
+            406.0,
+            199.0,
+            204.0,
+            353.0
+          ],
+          "quadrant_areas": [
+            553.0,
+            709.0,
+            835.0,
+            912.0
+          ],
+          "symmetry_score": 0.8358,
+          "intrinsic_integrity_score": 0.7589,
+          "segments": [
+            {
+              "segment_id": 0,
+              "bbox": {
+                "x1": 702,
+                "y1": 1007,
+                "x2": 830,
+                "y2": 1135
+              },
+              "rel_cx": 0.00806851476222652,
+              "rel_cy": -0.008078446652379721,
+              "area": 3009.0,
+              "span_length": 128.0,
+              "skeleton_length": 332.48618083793303,
+              "mean_thickness": 9.050000190734863,
+              "max_thickness": 13.192999839782715,
+              "aspect_ratio": 1.0,
+              "orientation_deg": 93.75061161189785,
+              "sinuosity_std": 23.101371015838506,
+              "max_axis_deviation": 35.150238616882746,
+              "orthogonal_intrusion_ratio": 0.1328125,
+              "fragment_count_in_corridor": 1,
+              "underlying_wafer_intensity": 227.34373401534526,
+              "underlying_wafer_gradient": 52.63078689575195,
+              "is_curved_arc": true
+            }
+          ]
+        }
+      ],
+      "defects": [],
+      "primary_defect": null,
+      "defect_types": [],
+      "summary_explanation": "[정상 계측] 군집 기준(7e323b20-c51a-47d5-a256-519fe63bf36d.jpg) 대비 모든 계측 위치·선분·형태 정합 완료 (정상 초점: 선명도 29.6 (군집 기준 대비 67.8%))",
+      "reference_image_name": "7e323b20-c51a-47d5-a256-519fe63bf36d.jpg",
+      "reference_image_path": "samples/7e323b20-c51a-47d5-a256-519fe63bf36d.jpg",
+      "diagnostic_image_path": null,
+      "comparison_image_path": null
     },
     {
       "image_path": "samples/e16b9a33-8bcf-4ab6-9810-78a6b849f140.jpg",
@@ -1689,7 +1948,7 @@
             2603.0
           ],
           "symmetry_score": 0.9812,
-          "intrinsic_integrity_score": 0.7478,
+          "intrinsic_integrity_score": 0.5226,
           "segments": [
             {
               "segment_id": 0,
@@ -1708,13 +1967,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 21.3,
               "orientation_deg": 0.008827391688015496,
-              "sinuosity_std": 0.1675550623902958,
-              "max_axis_deviation": 0.9120246036964934,
+              "sinuosity_std": 0.17332196464673813,
+              "max_axis_deviation": 0.9609544648127404,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 106.41614906832298,
               "underlying_wafer_gradient": 224.59339904785156,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 3,
@@ -1733,13 +1992,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 7.3,
               "orientation_deg": 179.95786905770976,
-              "sinuosity_std": 0.1371180749207878,
-              "max_axis_deviation": 0.8012958163643074,
+              "sinuosity_std": 0.15181349282221832,
+              "max_axis_deviation": 0.941132913735653,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 232.70186335403727,
               "underlying_wafer_gradient": 253.00196838378906,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 2,
@@ -1758,13 +2017,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 23.88888888888889,
               "orientation_deg": 90.03884221092086,
-              "sinuosity_std": 0.2368309492759508,
-              "max_axis_deviation": 1.146353254980411,
+              "sinuosity_std": 0.24201951691063064,
+              "max_axis_deviation": 1.2562661498708003,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 144.43478260869566,
               "underlying_wafer_gradient": 283.0158996582031,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 4,
@@ -1783,13 +2042,13 @@
               "max_thickness": 11.535799980163574,
               "aspect_ratio": 3.6666666666666665,
               "orientation_deg": 94.17622836954375,
-              "sinuosity_std": 1.3892011770216426,
-              "max_axis_deviation": 3.09264241047722,
+              "sinuosity_std": 3.7932322304780537,
+              "max_axis_deviation": 5.758866928299392,
               "orthogonal_intrusion_ratio": 0.0684931506849315,
-              "fragment_count_in_corridor": 1,
+              "fragment_count_in_corridor": 2,
               "underlying_wafer_intensity": 218.30289855072465,
               "underlying_wafer_gradient": 162.91531372070312,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 5,
@@ -1808,13 +2067,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 9.11111111111111,
               "orientation_deg": 90.6752080095353,
-              "sinuosity_std": 0.6212820526895736,
-              "max_axis_deviation": 2.7714771202502635,
+              "sinuosity_std": 0.6458443466662048,
+              "max_axis_deviation": 2.7686600058771678,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 239.52173913043478,
               "underlying_wafer_gradient": 267.22650146484375,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 1,
@@ -1833,13 +2092,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 22.1,
               "orientation_deg": 90.02539461230224,
-              "sinuosity_std": 0.5423721915975304,
-              "max_axis_deviation": 3.4751654008458015,
+              "sinuosity_std": 0.5584231214977663,
+              "max_axis_deviation": 3.568212229143837,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 220.44099378881987,
               "underlying_wafer_gradient": 192.27398681640625,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 6,
@@ -1858,13 +2117,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 6.9,
               "orientation_deg": 179.50654741015404,
-              "sinuosity_std": 0.5006107273116885,
-              "max_axis_deviation": 1.999338228861661,
+              "sinuosity_std": 0.6165881328344923,
+              "max_axis_deviation": 2.701979052490562,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 232.93478260869566,
               "underlying_wafer_gradient": 264.53436279296875,
-              "is_curved_arc": true
+              "is_curved_arc": false
             },
             {
               "segment_id": 7,
@@ -1883,13 +2142,13 @@
               "max_thickness": 9.050000190734863,
               "aspect_ratio": 21.0,
               "orientation_deg": 0.01640607370370617,
-              "sinuosity_std": 0.2260774080649507,
-              "max_axis_deviation": 0.9052159307110426,
+              "sinuosity_std": 0.22705678029473558,
+              "max_axis_deviation": 0.8980076213800343,
               "orthogonal_intrusion_ratio": 0.0,
               "fragment_count_in_corridor": 1,
               "underlying_wafer_intensity": 168.40062111801242,
               "underlying_wafer_gradient": 223.31590270996094,
-              "is_curved_arc": true
+              "is_curved_arc": false
             }
           ]
         }
@@ -1897,7 +2156,7 @@
       "defects": [
         {
           "defect_type": "패턴 왜곡",
-          "severity_score": 9.59,
+          "severity_score": 10.8,
           "site_id": 0,
           "region_bbox": {
             "x1": 412,
@@ -1905,10 +2164,10 @@
             "x2": 449,
             "y2": 506
           },
-          "description": "Site #1 패턴 왜곡: 계측 선분이 직선 형태를 유지하지 못하고 비정상적으로 뒤틀림 (축 휨 편차 1.39px, 최대 이탈 3.1px vs 정상 0.21px)",
+          "description": "Site #1 패턴 왜곡: 계측 선분이 직선 형태를 유지하지 못하고 비정상적으로 뒤틀림 (축 휨 편차 3.79px, 최대 이탈 5.8px vs 정상 0.21px)",
           "metrics": {
-            "sinuosity_std": 1.389,
-            "max_axis_deviation": 3.09,
+            "sinuosity_std": 3.793,
+            "max_axis_deviation": 5.76,
             "reference_sinuosity_std": 0.21
           }
         },
@@ -1929,14 +2188,31 @@
             "underlying_intensity": 218.3,
             "reference_intensity": 245.0
           }
+        },
+        {
+          "defect_type": "내부 파편화",
+          "severity_score": 9.0,
+          "site_id": 0,
+          "region_bbox": {
+            "x1": 414,
+            "y1": 415,
+            "x2": 447,
+            "y2": 504
+          },
+          "description": "Site #1 내부 파편화: 단일 계측 선분 내부에 끊김/틈이 발생하여 2개 조각으로 분리됨 (정상 1개)",
+          "metrics": {
+            "fragment_count": 2.0,
+            "reference_fragment_count": 1.0
+          }
         }
       ],
       "primary_defect": "패턴 왜곡",
       "defect_types": [
         "패턴 왜곡",
-        "계측 위치 불일치"
+        "계측 위치 불일치",
+        "내부 파편화"
       ],
-      "summary_explanation": "[오계측 판정] 주원인: 패턴 왜곡 (복합 결함: 패턴 왜곡, 계측 위치 불일치) | 상세: Site #1 패턴 왜곡: 계측 선분이 직선 형태를 유지하지 못하고 비정상적으로 뒤틀림 (축 휨 편차 1.39px, 최대 이탈 3.1px vs 정상 0.21px) / Site #1 계측 위치 불일치: 정상 계측 위치 대비 27.7px(상대편차 6.4%) 이탈",
+      "summary_explanation": "[오계측 판정] 주원인: 패턴 왜곡 (복합 결함: 패턴 왜곡, 계측 위치 불일치, 내부 파편화) | 상세: Site #1 패턴 왜곡: 계측 선분이 직선 형태를 유지하지 못하고 비정상적으로 뒤틀림 (축 휨 편차 3.79px, 최대 이탈 5.8px vs 정상 0.21px) / Site #1 계측 위치 불일치: 정상 계측 위치 대비 27.7px(상대편차 6.4%) 이탈 / Site #1 내부 파편화: 단일 계측 선분 내부에 끊김/틈이 발생하여 2개 조각으로 분리됨 (정상 1개)",
       "reference_image_name": "56d8f7f6-cb4d-4034-bbf0-d8e81d7c71b7.jpg",
       "reference_image_path": "samples/56d8f7f6-cb4d-4034-bbf0-d8e81d7c71b7.jpg",
       "diagnostic_image_path": "output_report/diagnostics/e16b9a33-8bcf-4ab6-9810-78a6b849f140_diagnostic.jpg",

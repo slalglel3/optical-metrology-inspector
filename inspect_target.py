@@ -35,20 +35,24 @@ def list_directory_images(sample_dir: str) -> List[str]:
 
 
 def resolve_target_image(all_paths: List[str], target_arg: str) -> Optional[str]:
-    """파일명, 확장자 생략 이름, 또는 경로 인자로부터 대상 이미지 경로를 찾습니다."""
+    """파일명, 확장자 생략 이름, 또는 외부 파일 경로 인자로부터 대상 이미지 경로를 찾습니다."""
     target_base = os.path.basename(target_arg)
     target_stem = os.path.splitext(target_base)[0]
 
-    # 1. 정확한 파일명 일치
+    # 1. 디렉토리 내 정확한 파일명 일치
     for p in all_paths:
         if os.path.basename(p) == target_base:
             return p
 
-    # 2. 확장자 제외 파일명(stem) 일치 또는 부분 문자열 일치
+    # 2. 디렉토리 내 확장자 제외 파일명(stem) 일치 또는 부분 문자열 일치
     for p in all_paths:
         stem = os.path.splitext(os.path.basename(p))[0]
         if stem == target_stem or target_base in os.path.basename(p):
             return p
+
+    # 3. 직접 지정된 외부 파일 경로가 존재하는 경우 해당 파일 경로 반환
+    if os.path.isfile(target_arg):
+        return os.path.abspath(target_arg)
 
     return None
 
@@ -90,6 +94,9 @@ def main(argv: List[str] | None = None) -> int:
             file=sys.stderr,
         )
         return 1
+
+    if target_path not in all_images:
+        all_images.append(target_path)
 
     target_name = os.path.basename(target_path)
     print("=" * 88)
